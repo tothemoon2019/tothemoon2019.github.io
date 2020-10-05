@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+  
+  <title>学习笔记7.0 记录dockecr常用命令 - titanium &#39; s blog</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  
+  
+
+  <link rel="shortcut icon" href="https://gitee.com/tothemoon_2020/picgo/raw/master/img/20201005095528.jpeg" type="image/png" />
+  <meta name="description" content="最近在用docker搭比赛环境，记录下使用的命令，免得老年人记忆忘记了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学习笔记7.0 记录dockecr常用命令">
+<meta property="og:url" content="http://example.com/2020/10/05/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07-0-%E8%AE%B0%E5%BD%95dockecr%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="titanium &#39; s blog">
+<meta property="og:description" content="最近在用docker搭比赛环境，记录下使用的命令，免得老年人记忆忘记了。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/942faa2846370e8890ac637c5e4cfe1b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/a906fa98519e2817d80e56f52e6a73c5.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/fea95b023bcf83ae69b7c7adec5d21d7.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/fd3590cdac4de50cd421e4d2630c45bd.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/da49f4d4991eecf7cfc3c3c4eff95474.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/efdf60dd635356aeb208e662954c458b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/e59b8c2cf4855b474a2ff37b28f346de.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/93af17950d98a330afcad26c6e6fe77e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/8f0372b29e6356c804c052821afe812f.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/1d21512ae7603b47a721de2a1608e712.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/fe997eb82073599d04e6c462019f69f1.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/1cfc671f475456f74ee025fbaa359632.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/299a8248f1b97191e7a5ed4679bd318f.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/2cdfaaa3719f0683feb4c3f9ab752533.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/964bccbedc04f3c14f06f30c2e5e0b52.png">
+<meta property="article:published_time" content="2020-10-05T05:54:14.000Z">
+<meta property="article:modified_time" content="2020-10-05T11:48:05.861Z">
+<meta property="article:author" content="tothemoon">
+<meta property="article:tag" content="ctf 网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/942faa2846370e8890ac637c5e4cfe1b.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
+  
+  <!--<link rel="stylesheet" href="/css/style.css?v=1601901367509">-->
+
+   
+    <style>
+      .nexmoe-avatar img:hover {
+        -webkit-transform: rotateZ(360deg);
+        -moz-transform: rotateZ(360deg);
+        transform: rotateZ(360deg);
+      }	
+    </style>
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="mdui-drawer-body-left">
+  
+  <div id="nexmoe-background">
+    <div class="nexmoe-bg" style="background-image: url(https://gitee.com/tothemoon_2020/picgo/raw/master/img/20201005170714.jpg)"></div>
+    <div class="mdui-appbar mdui-shadow-0">
+      <div class="mdui-toolbar">
+        <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+        <div class="mdui-toolbar-spacer"></div>
+        <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+        <a href="/" title="tothemoon" class="mdui-btn mdui-btn-icon"><img src="https://gitee.com/tothemoon_2020/picgo/raw/master/img/20201005095528.jpeg" alt="tothemoon"></a>
+       </div>
+    </div>
+  </div>
+  <div id="nexmoe-header">
+      <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="tothemoon">
+            <img src="https://gitee.com/tothemoon_2020/picgo/raw/master/img/20201005095528.jpeg" alt="tothemoon" alt="tothemoon">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>3</div>
+        <div><span>标签</span>1</div>
+        <div><span>分类</span>2</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/archives" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+  
+  <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+        <form id="search_form" action_e="https://www.baidu.com/search?q=http://192.168.3.88:4000/" onsubmit="return search();">
+            <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
+        </form>
+    </div>
+</div>
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">社交按钮</h3>
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://space.bilibili.com/28841207" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/tothemoon2019" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(0，0，0);background-color: rgba(25,23,23,.1);">
+            <i class="nexmoefont icon-github"></i>
+        </a><a class="mdui-ripple" href="https://steamcommunity.com/profiles/76561198234182404/" target="_blank" mdui-tooltip="{content: 'steam'}" style="color: rgb(25, 23, 23);background-color: rgba(14,71,161,.1);">
+            <i class="nexmoefont icon-steam"></i>
+        </a><a class="mdui-ripple" href="https://www.zhihu.com/people/beezhu-zou" target="_blank" mdui-tooltip="{content: '知乎'}" style="color: color:#1e88e5;background-color: rgba(0, 0, 255, .15);">
+            <i class="nexmoefont icon-zhihu"></i>
+        </a><a class="mdui-ripple" href="https://blog.csdn.net/qq_43478096" target="_blank" mdui-tooltip="{content: 'csdn'}" style="color: color:#1e88e5;background-color: rgba(0, 0, 255, .15);">
+            <i class="nexmoefont https://csdnimg.cn/public/favicon.ico"></i>
+        </a>
+    </div>
+</div>
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章分类</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/学习笔记/">学习笔记</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/杂项/">杂项</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">标签云</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud nexmoe-rainbow">
+      <a href="/tags/ctf-%E7%BD%91%E7%BB%9C/" style="font-size: 10px;">ctf 网络</a>
+    </div>
+    
+  </div>
+
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2020 tothemoon
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://nexmoe.com/hexo-theme-nexmoe.html" target="_blank">Nexmoe</a>
+    </div>
+</div><!-- .nexmoe-drawer -->
+  </div>
+  <div id="nexmoe-content">
+    <div class="nexmoe-primary">
+        <div class="nexmoe-post">
+  
+      <div class="nexmoe-post-cover" style="padding-bottom: 20%;"> 
+          <img data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/img/20201005182735.png" data-sizes="auto" alt="学习笔记7.0 记录dockecr常用命令" class="lazyload">
+          <h1>学习笔记7.0 记录dockecr常用命令</h1>
+      </div>
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2020年10月05日</a>
+    <a><i class="nexmoefont icon-areachart"></i>304 字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
+</div>
+
+  <div class="nexmoe-post-right">
+    
+      <div class="nexmoe-fixed">
+        <div class="nexmoe-valign">
+            <div class="nexmoe-toc">
+                
+            </div>
+        </div>
+      </div>
+    
+  </div>
+
+  <article>
+    <p>最近在用docker搭比赛环境，记录下使用的命令，免得老年人记忆忘记了。</p>
+<a id="more"></a>
+<p>docker un -p 56:80 -it –name ezphp -d 2/alpine-lamp5:latest /bin/bash</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;bin&#x2F;bash 是为了先运行一个进程，防止退出时容器关闭。</span><br></pre></td></tr></table></figure>
+
+
+<p>dockerfile 拉镜像 docker build -t web1:v1 .</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/942faa2846370e8890ac637c5e4cfe1b.png" alt="image-20200926163337926" class="lazyload"></p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/a906fa98519e2817d80e56f52e6a73c5.png" alt="image-20200926165918245" class="lazyload"></p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/fea95b023bcf83ae69b7c7adec5d21d7.png" alt="image-20200926165946321" class="lazyload"></p>
+<p>docker 拉镜像 docker pull ubuntu:16.04 (可以先去官网查一下有哪些版本，不指定版本会直接下最新版)</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/fd3590cdac4de50cd421e4d2630c45bd.png" alt="image-20200926142740080" class="lazyload"></p>
+<p>docker寻找镜像 docker search 本地镜像名</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/da49f4d4991eecf7cfc3c3c4eff95474.png" alt="image-20200926142215439" class="lazyload"></p>
+<p>docker 打包镜像 docker save &gt; ubuntu.tar ubuntu:16.04 或者 docker save -o ubuntu.tar ubuntu:16.04</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/efdf60dd635356aeb208e662954c458b.png" alt="image-20200926144557147" class="lazyload"></p>
+<p>docker 导入镜像 docker load &lt; apache.tar 或者 docker load -i nginx.tar</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/e59b8c2cf4855b474a2ff37b28f346de.png" alt="image-20200926145307748" class="lazyload"></p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/93af17950d98a330afcad26c6e6fe77e.png" alt="image-20200926145347948" class="lazyload"></p>
+<p>相似有export import 命令</p>
+<ul>
+<li>若是只想备份images，使用save、load即可</li>
+<li>若是在启动容器后，容器内容有变化，需要备份，则使用export、import</li>
+</ul>
+<p>docker 重命名 docker tag id repository:tag</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/8f0372b29e6356c804c052821afe812f.png" alt="image-20200926150256786" class="lazyload"></p>
+<p>docker 删除所有容器 </p>
+<p>1.列出所有的容器的id    docker ps -aq</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/1d21512ae7603b47a721de2a1608e712.png" alt="image-20200926140819907" class="lazyload"></p>
+<p>2.停止所有的容器 docker stop $(docker ps -aq)</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/fe997eb82073599d04e6c462019f69f1.png" alt="image-20200926140959094" class="lazyload"></p>
+<p>3.删除所有的容器 docker rm $(docker ps -aq)   docker rm -f id(强制删除)</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/1cfc671f475456f74ee025fbaa359632.png" alt="image-20200926141045480" class="lazyload"></p>
+<p>4 删除所有镜像 docker rmi $(docker image -aq)</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/299a8248f1b97191e7a5ed4679bd318f.png" alt="image-20200926141730925" class="lazyload"></p>
+<p>但有的镜像由于子镜像的原因得手动删除 docker rmi repository:tag</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/2cdfaaa3719f0683feb4c3f9ab752533.png" alt="image-20200926141855487" class="lazyload"></p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/964bccbedc04f3c14f06f30c2e5e0b52.png" alt="image-20200926151957919" class="lazyload"></p>
+
+  </article>
+
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/ctf-%E7%BD%91%E7%BB%9C/" rel="tag">ctf 网络</a>
+    
+</div>
+
+  <div class="nexmoe-post-footer">
+    
+      
+  <div class="nexmoe-post-copyright">
+    <strong>本文作者：</strong>tothemoon<br>
+    <strong>本文链接：</strong><a href="http://example.com/2020/10/05/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07-0-%E8%AE%B0%E5%BD%95dockecr%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" title="http:&#x2F;&#x2F;example.com&#x2F;2020&#x2F;10&#x2F;05&#x2F;%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07-0-%E8%AE%B0%E5%BD%95dockecr%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2020&#x2F;10&#x2F;05&#x2F;%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B07-0-%E8%AE%B0%E5%BD%95dockecr%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4&#x2F;</a><br>
+    
+      <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+    
+  </div>
+
+
+    
+    <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+  </div>
+</div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!--<script src="/js/app.js?v=1601901367513"></script>-->
+
+
+    <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
+
+
+
+  
+
+
+
+
+
+</body>
+
+</html>
