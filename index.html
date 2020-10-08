@@ -21,7 +21,7 @@
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
   
-  <!--<link rel="stylesheet" href="/css/style.css?v=1602077681024">-->
+  <!--<link rel="stylesheet" href="/css/style.css?v=1602121785290">-->
 
    
     <style>
@@ -55,7 +55,7 @@
         </a>
     </div>
     <div class="nexmoe-count">
-        <div><span>文章</span>2</div>
+        <div><span>文章</span>3</div>
         <div><span>标签</span>0</div>
         <div><span>分类</span>2</div>
     </div>
@@ -162,26 +162,82 @@
         <section class="nexmoe-posts">
     
     <div class="nexmoe-post">
-        <a href="/2020/10/07/%E7%AC%AC%20%E4%B8%89%20%E5%91%A8%20write%20up/">
+        <a href="/2020/10/08/shrine/">
             
-                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 20%;"> 
-                    <img data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/img/20201005182921.png" data-sizes="auto" alt="第 三 周 write up" class="lazyload">
-                    <h1>第 三 周 write up</h1>
+                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 27.77777777777778%;"> 
+                    <img data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/img/20201005170714.jpg" data-sizes="auto" alt="" class="lazyload">
+                    <h1></h1>
                 </div>
             
         </a>
 
         <div class="nexmoe-post-meta nexmoe-rainbow">
-            <a><i class="nexmoefont icon-calendar-fill"></i>2020年10月07日</a>
-            <a><i class="nexmoefont icon-areachart"></i>484 字</a>
+            <a><i class="nexmoefont icon-calendar-fill"></i>2020年10月08日</a>
+            <a><i class="nexmoefont icon-areachart"></i>487 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 2 分钟</a>
         </div>
 
         <article>
             
-                <p>工作室“改革” 为了加强我们这一届的知识技能 每周3个ctfhub 的 write up。  </p>
-<p>都到周三了，一道题没做，不是这有事，就是那忙，我是菜鸡，今天晚上赶紧肝一道出来。</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007211540845.png" alt="image-20201007211540845" class="lazyload"></p>
+                <p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/dfc22a4357ecd63075c1b4134ac67499.png" alt="image-20201007211540845" class="lazyload"></p>
+<h2 id="2018-TokyoWesterns-Web-shrine"><a href="#2018-TokyoWesterns-Web-shrine" class="headerlink" title="2018-TokyoWesterns-Web-shrine"></a>2018-TokyoWesterns-Web-shrine</h2><p>先百度了下题目名shrine</p>
+<p>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-a141HA3L-1602076468782)(C:\Users\邹航程\AppData\Roaming\Typora\typora-user-images\image-20201007203146204.png)]</p>
+<p> 打开后有一堆乱码，不过隐约看见了app.py应该是python网站框架里的文件，然后看到了flask。</p>
+<pre><code class="python">�
+�k^_c@s�ddlZddlZeje�Zejjd�ejd&lt;ejd�d��Z    ejd�d��Z
+edkr�ejded    d
+�ndS(i����NtFLAGt/cCstt�j�S(N(topent__file__tread(((s/app/app.pytindex
+ss/shrine/&lt;path:shrine&gt;cCsd�&#125;tj||��S(NcSsW|jdd�jdd�&#125;ddg&#125;djg|D]&#125;dj|�^q7�|S(Nt(tt)tconfigtselfs&#123;&#123;% set &#123;&#125;=None%&#125;&#125;(treplacetjointformat(tst    blacklisttc((s/app/app.pyt
+safe_jinjas(tflasktrender_template_string(tshrineR((s/app/app.pyRs    t__main__tdebugtportiP(
+RtostFlaskt__name__tapptenvirontpopR    trouteRRtruntTrue(((s/app/app.pyt&lt;module&gt;s
+
+
+
+</code></pre>
+<p>应该和flask模板漏洞有关</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/1470c476b369856ccf3b6ce2714b62d7.png" alt="image-20201007203558124" class="lazyload"></p>
+<p>结果刷新页面的时候突然发现页面没有乱码了，</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/f896e092693154b3c400a9206e70d4c3.png" alt="image-20201007203935237" class="lazyload"></p>
+<pre><code class="python">import flask
+import os
+
+app = flask.Flask(__name__)
+
+app.config[&#39;FLAG&#39;] = os.environ.pop(&#39;FLAG&#39;)
+
+
+@app.route(&#39;/&#39;)
+def index():
+    return open(__file__).read()
+
+
+@app.route(&#39;/shrine/&#39;)
+def shrine(shrine):
+
+    def safe_jinja(s):
+        s = s.replace(&#39;(&#39;, &#39;&#39;).replace(&#39;)&#39;, &#39;&#39;) #替换
+        blacklist = [&#39;config&#39;, &#39;self&#39;]  # 黑名单
+        return &#39;&#39;.join([&#39;&#123;&#123;% set &#123;&#125;=None%&#125;&#125;&#39;.format(c) for c in blacklist]) + s
+
+    return flask.render_template_string(safe_jinja(shrine))
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(debug=True, port=80)
+</code></pre>
+<p>突然想起来有个脚本sqlmap可以跑ssti模板注入的洞，开kali跑！</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/f7f41713a55c9796bf44b0c1d363cae9.png" alt="image-20201007204948352" class="lazyload"></p>
+<p>淦，太久没碰ssti了居然来测试漏洞，服了。正确的应该是14</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/5403ea219f1fec25f31ea0f943de2e61.png" alt="image-20201007210706826" class="lazyload"></p>
+<p>成功接下来就是找能调用的类了。</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/33a95fe7a0eb1d7dc65635c5a2087396.png" alt="image-20201007210924090" class="lazyload"></p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/e62204a9c1f96740f48d7ce4159d07d0.png" alt="image-20201007210827814" class="lazyload"></p>
+<p>不过源码里有写过滤，去掉了（    ） ； config 和 self也加入了黑名单。不然直接查看app.config应该就能看见flag。</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/d1a23392c2401868a9ce4cab1f98c74c.png" alt="image-20201007211117583" class="lazyload"></p>
+<p>溜了，明天再肝</p>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/844b4a5c7e7450eb34638a22bdb2d8ba.png" alt="image-20201007211146555" class="lazyload"></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/column/148886.html">https://www.freebuf.com/column/148886.html</a></p>
+<img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007201856791.png" alt="image-20201007201856791" class="lazyload">
             
         </article>
     </div>
@@ -211,13 +267,106 @@
         </article>
     </div>
     
+    <div class="nexmoe-post">
+        <a href="/2020/10/05/%E7%AC%AC%20%E4%B8%89%20%E5%91%A8%20write%20up/">
+            
+                <div class="nexmoe-post-cover mdui-ripple" style="padding-bottom: 20%;"> 
+                    <img data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/img/20201005182921.png" data-sizes="auto" alt="hello world" class="lazyload">
+                    <h1>hello world</h1>
+                </div>
+            
+        </a>
+
+        <div class="nexmoe-post-meta nexmoe-rainbow">
+            <a><i class="nexmoefont icon-calendar-fill"></i>2020年10月05日</a>
+            <a><i class="nexmoefont icon-areachart"></i>123 字</a>
+            <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
+        </div>
+
+        <article>
+            
+                <p>工作室“改革” 为了加强我们这一届的知识技能 每周3个ctfhub 的 write up。  </p>
+<p>都到周三了，一道题没做，不是这有事，就是那忙，我是菜鸡，今天晚上赶紧肝一道出来。</p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007211540845.png" alt="image-20201007211540845" class="lazyload"></p>
+<h2 id="2018-TokyoWesterns-Web-shrine"><a href="#2018-TokyoWesterns-Web-shrine" class="headerlink" title="2018-TokyoWesterns-Web-shrine"></a>2018-TokyoWesterns-Web-shrine</h2><p>先百度了下题目名shrine</p>
+<p><img data-sizes="auto" data-src="C:\Users\邹航程\AppData\Roaming\Typora\typora-user-images\image-20201007203146204.png" alt="image-20201007203146204" class="lazyload"></p>
+<p> 打开后有一堆乱码，不过隐约看见了app.py应该是python网站框架里的文件，然后看到了flask。</p>
+<pre><code> 
+�
+�k^_c@s�ddlZddlZeje�Zejjd�ejd<ejd�d��Z    ejd�d��Z
+edkr�ejded    d
+�ndS(i����NtFLAGt/cCstt�j�S(N(topent__file__tread(((s/app/app.pytindex
+ss/shrine/<path:shrine>cCsd�&#125;tj||��S(NcSsW|jdd�jdd�&#125;ddg&#125;djg|D]&#125;dj|�^q7�|S(Nt(tt)tconfigtselfs&#123;&#123;% set &#123;&#125;=None%&#125;&#125;(treplacetjointformat(tst    blacklisttc((s/app/app.pyt
+safe_jinjas(tflasktrender_template_string(tshrineR((s/app/app.pyRs    t__main__tdebugtportiP(
+RtostFlaskt__name__tapptenvirontpopR    trouteRRtruntTrue(((s/app/app.pyt<module>s
+
+
+
+
+ </code></pre>
+
+<p>应该和flask模板漏洞有关</p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007203558124.png" alt="image-20201007203558124" class="lazyload"></p>
+<p>结果刷新页面的时候突然发现页面没有乱码了，</p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007203935237.png" alt="image-20201007203935237" class="lazyload"></p>
+<pre><code>
+import flask
+import os
+
+app = flask.Flask(__name__)
+
+app.config['FLAG'] = os.environ.pop('FLAG')
+
+
+@app.route('/')
+def index():
+    return open(__file__).read()
+
+
+@app.route('/shrine/')
+def shrine(shrine):
+
+    def safe_jinja(s):
+        s = s.replace('(', '').replace(')', '') #替换
+        blacklist = ['config', 'self']  # 黑名单
+        return ''.join(['&#123;&#123;% set &#123;&#125;=None%&#125;&#125;'.format(c) for c in blacklist]) + s
+
+    return flask.render_template_string(safe_jinja(shrine))
+
+
+if __name__ == '__main__':
+    app.run(debug=True, port=80)
+
+
+ </code></pre>
+
+
+<p>突然想起来有个脚本sqlmap可以跑ssti模板注入的洞，开kali跑！</p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007204948352.png" alt="image-20201007204948352" class="lazyload"></p>
+<p>淦，太久没碰ssti了} 来测试漏洞，服了。正确的应该是14</p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007210706826.png" alt="image-20201007210706826" class="lazyload"></p>
+<p>成功接下来就是找能调用的类了。</p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007210924090.png" alt="image-20201007210924090" class="lazyload"></p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007210827814.png" alt="image-20201007210827814" class="lazyload"></p>
+<p>不过源码里有写过滤，去掉了（    ） ； config 和 self也加入了黑名单。不然直接查看app.config应该就能看见flag。</p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007211117583.png" alt="image-20201007211117583" class="lazyload"></p>
+<p>溜了，明天再肝</p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007211146555.png" alt="image-20201007211146555" class="lazyload"></p>
+<p><a target="_blank" rel="noopener" href="https://www.freebuf.com/column/148886.html">https://www.freebuf.com/column/148886.html</a></p>
+<img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007201856791.png" alt="image-20201007201856791" class="lazyload">
+
+
+            
+        </article>
+    </div>
+    
 </section>
 
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<!--<script src="/js/app.js?v=1602077681026"></script>-->
+<!--<script src="/js/app.js?v=1602121785291"></script>-->
 
 
     <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
