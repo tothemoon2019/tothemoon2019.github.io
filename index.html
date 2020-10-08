@@ -21,7 +21,7 @@
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
   
-  <!--<link rel="stylesheet" href="/css/style.css?v=1602122811824">-->
+  <!--<link rel="stylesheet" href="/css/style.css?v=1602123002568">-->
 
    
     <style>
@@ -173,7 +173,7 @@
 
         <div class="nexmoe-post-meta nexmoe-rainbow">
             <a><i class="nexmoefont icon-calendar-fill"></i>2020年10月07日</a>
-            <a><i class="nexmoefont icon-areachart"></i>123 字</a>
+            <a><i class="nexmoefont icon-areachart"></i>60 字</a>
             <a><i class="nexmoefont icon-time-circle-fill"></i>大概 1 分钟</a>
         </div>
 
@@ -181,24 +181,28 @@
             
                 <p>工作室“改革” 为了加强我们这一届的知识技能 每周3个ctfhub 的 write up。  </p>
 <p>都到周三了，一道题没做，不是这有事，就是那忙，我是菜鸡，今天晚上赶紧肝一道出来。</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007211540845.png" alt="image-20201007211540845" class="lazyload"></p>
-<h2 id="2018-TokyoWesterns-Web-shrine"><a href="#2018-TokyoWesterns-Web-shrine" class="headerlink" title="2018-TokyoWesterns-Web-shrine"></a>2018-TokyoWesterns-Web-shrine</h2><p>先百度了下题目名shrine</p>
-<p><img data-sizes="auto" data-src="C:\Users\邹航程\AppData\Roaming\Typora\typora-user-images\image-20201007203146204.png" alt="image-20201007203146204" class="lazyload"></p>
-<p> 打开后有一堆乱码，不过隐约看见了app.py应该是python网站框架里的文件，然后看到了flask。</p>
+<!-- more --!>
+![image-20201007211540845](https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007211540845.png)
+
+
+
+## 2018-TokyoWesterns-Web-shrine
+
+先百度了下题目名shrine
+![](https://gitee.com/tothemoon_2020/picgo/raw/master/20201008095915.png)
+
+
+ 打开后有一堆乱码，不过隐约看见了app.py应该是python网站框架里的文件，然后看到了flask。
+
+
 <pre><code> 
 �
 �k^_c@s�ddlZddlZeje�Zejjd�ejd<ejd�d��Z    ejd�d��Z
 edkr�ejded    d
 �ndS(i����NtFLAGt/cCstt�j�S(N(topent__file__tread(((s/app/app.pytindex
 ss/shrine/<path:shrine>cCsd�&#125;tj||��S(NcSsW|jdd�jdd�&#125;ddg&#125;djg|D]&#125;dj|�^q7�|S(Nt(tt)tconfigtselfs&#123;&#123;% set &#123;&#125;=None%&#125;&#125;(treplacetjointformat(tst    blacklisttc((s/app/app.pyt
-safe_jinjas(tflasktrender_template_string(tshrineR((s/app/app.pyRs    t__main__tdebugtportiP(
-RtostFlaskt__name__tapptenvirontpopR    trouteRRtruntTrue(((s/app/app.pyt<module>s
-
-
-
-
- </code></pre>
-
+<p>safe_jinjas(tflasktrender_template_string(tshrineR((s/app/app.pyRs    t__main__tdebugtportiP(<br>RtostFlaskt__name__tapptenvirontpopR    trouteRRtruntTrue(((s/app/app.pyt<module>s</p>
+<p> </code></pre></p>
 <p>应该和flask模板漏洞有关</p>
 <p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007203558124.png" alt="image-20201007203558124" class="lazyload"></p>
 <p>结果刷新页面的时候突然发现页面没有乱码了，</p>
@@ -245,6 +249,33 @@ if __name__ == '__main__':
 <p>不过源码里有写过滤，去掉了（    ） ； config 和 self也加入了黑名单。不然直接查看app.config应该就能看见flag。</p>
 <p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007211117583.png" alt="image-20201007211117583" class="lazyload"></p>
 <p>溜了，明天再肝</p>
+<pre><code class="python">import flask
+import os
+
+app = flask.Flask(__name__)
+
+app.config[&#39;FLAG&#39;] = os.environ.pop(&#39;FLAG&#39;)
+
+
+@app.route(&#39;/&#39;)
+def index():
+    return open(__file__).read()
+
+
+@app.route(&#39;/shrine/&#39;)
+def shrine(shrine):
+
+    def safe_jinja(s):
+        s = s.replace(&#39;(&#39;, &#39;&#39;).replace(&#39;)&#39;, &#39;&#39;) #ćżć˘
+        blacklist = [&#39;config&#39;, &#39;self&#39;]  # éťĺĺ
+        return &#39;&#39;.join([&#39;&#123;&#123;% set &#123;&#125;=None%&#125;&#125;&#39;.format(c) for c in blacklist]) + s
+
+    return flask.render_template_string(safe_jinja(shrine))
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(debug=True, port=80)
+</code></pre>
 <p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007211146555.png" alt="image-20201007211146555" class="lazyload"></p>
 <p><a target="_blank" rel="noopener" href="https://www.freebuf.com/column/148886.html">https://www.freebuf.com/column/148886.html</a></p>
 <img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201007201856791.png" alt="image-20201007201856791" class="lazyload">
@@ -285,7 +316,7 @@ if __name__ == '__main__':
   </div>
   <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<!--<script src="/js/app.js?v=1602122811825"></script>-->
+<!--<script src="/js/app.js?v=1602123002569"></script>-->
 
 
     <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
