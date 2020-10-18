@@ -12,12 +12,12 @@
   
 
   <link rel="shortcut icon" href="https://gitee.com/tothemoon_2020/picgo/raw/master/img/20201005095528.jpeg" type="image/png" />
-  <meta name="description" content="[TOC] BJDCTF-2020-Web-Cookie is so subtle!(twig,ssti)(!– more –) 先百度  瞎测了一下，居然测出给git泄露了？  跑了下脚本，不是git泄露。    淦  重新开始 在hint下面发现了提示  在flag.php页面登陆后，抓包发现，cookie里面多了变量user。  看了大佬的提示：是模板注入，靠，这怎么想得到啊。菜鸡我是真的涨">
+  <meta name="description" content="[TOC] BJDCTF-2020-Web-Cookie is so subtle!(twig,ssti)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第 四 周 write up [TokyoWesterns-Web-shrine 2017-赛客夏令营-Web-random 2017-赛客夏令营-Web-weakphp [网鼎杯 2020 朱雀组]Nmap]">
 <meta property="og:url" content="http://tothemoon2019.github.io/2020/10/15/%E7%AC%AC%20%E5%9B%9B%20%E5%91%A8%20write%20up%20[TokyoWesterns-Web-shrine%202017-%E8%B5%9B%E5%AE%A2%E5%A4%8F%E4%BB%A4%E8%90%A5-Web-random%202017-%E8%B5%9B%E5%AE%A2%E5%A4%8F%E4%BB%A4%E8%90%A5-Web-weakphp%20[%E7%BD%91%E9%BC%8E%E6%9D%AF%202020%20%E6%9C%B1%E9%9B%80%E7%BB%84]Nmap]/index.html">
 <meta property="og:site_name" content="tothemoon &#39; s blog">
-<meta property="og:description" content="[TOC] BJDCTF-2020-Web-Cookie is so subtle!(twig,ssti)(!– more –) 先百度  瞎测了一下，居然测出给git泄露了？  跑了下脚本，不是git泄露。    淦  重新开始 在hint下面发现了提示  在flag.php页面登陆后，抓包发现，cookie里面多了变量user。  看了大佬的提示：是模板注入，靠，这怎么想得到啊。菜鸡我是真的涨">
+<meta property="og:description" content="[TOC] BJDCTF-2020-Web-Cookie is so subtle!(twig,ssti)">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201010200127760.png">
 <meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012194341050.png">
@@ -68,13 +68,13 @@
 <meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201018202047338.png">
 <meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201013213251591.png">
 <meta property="article:published_time" content="2020-10-15T12:36:16.000Z">
-<meta property="article:modified_time" content="2020-10-18T12:56:13.119Z">
+<meta property="article:modified_time" content="2020-10-18T12:57:04.164Z">
 <meta property="article:author" content="tothemoon">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201010200127760.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
   
-  <!--<link rel="stylesheet" href="/css/style.css?v=1603025788856">-->
+  <!--<link rel="stylesheet" href="/css/style.css?v=1603025834489">-->
 
   
 <meta name="generator" content="Hexo 5.2.0"></head>
@@ -232,7 +232,8 @@
 
   <article>
     <p>[TOC]</p>
-<h1 id="BJDCTF-2020-Web-Cookie-is-so-subtle-twig-ssti"><a href="#BJDCTF-2020-Web-Cookie-is-so-subtle-twig-ssti" class="headerlink" title="BJDCTF-2020-Web-Cookie is so subtle!(twig,ssti)"></a>BJDCTF-2020-Web-Cookie is so subtle!(twig,ssti)</h1><p>(!– more –)</p>
+<h1 id="BJDCTF-2020-Web-Cookie-is-so-subtle-twig-ssti"><a href="#BJDCTF-2020-Web-Cookie-is-so-subtle-twig-ssti" class="headerlink" title="BJDCTF-2020-Web-Cookie is so subtle!(twig,ssti)"></a>BJDCTF-2020-Web-Cookie is so subtle!(twig,ssti)</h1><a id="more"></a>
+
 <p>先百度</p>
 <p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201010200127760.png" alt="image-20201010200127760" class="lazyload"></p>
 <p>瞎测了一下，居然测出给git泄露了？</p>
@@ -442,7 +443,7 @@ if(isset($_GET&#123;&#39;str&#39;&#125;)) &#123;
   </div>
   <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<!--<script src="/js/app.js?v=1603025788861"></script>-->
+<!--<script src="/js/app.js?v=1603025834495"></script>-->
 
 
     <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>

@@ -21,7 +21,7 @@
 <meta name="twitter:card" content="summary">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
   
-  <!--<link rel="stylesheet" href="/css/style.css?v=1603025788936">-->
+  <!--<link rel="stylesheet" href="/css/style.css?v=1603025834539">-->
 
   
 <meta name="generator" content="Hexo 5.2.0"></head>
@@ -172,172 +172,7 @@
         <article>
             
                 <p>[TOC]</p>
-<h1 id="BJDCTF-2020-Web-Cookie-is-so-subtle-twig-ssti"><a href="#BJDCTF-2020-Web-Cookie-is-so-subtle-twig-ssti" class="headerlink" title="BJDCTF-2020-Web-Cookie is so subtle!(twig,ssti)"></a>BJDCTF-2020-Web-Cookie is so subtle!(twig,ssti)</h1><p>(!– more –)</p>
-<p>先百度</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201010200127760.png" alt="image-20201010200127760" class="lazyload"></p>
-<p>瞎测了一下，居然测出给git泄露了？</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012194341050.png" alt="image-20201012194341050" class="lazyload"></p>
-<p>跑了下脚本，不是git泄露。    淦</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012194822379.png" alt="image-20201012194822379" class="lazyload"></p>
-<p>重新开始</p>
-<p>在hint下面发现了提示</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012200132199.png" alt="image-20201012200132199" class="lazyload"></p>
-<p>在flag.php页面登陆后，抓包发现，cookie里面多了变量user。</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201014123841249.png" alt="image-20201014123841249" class="lazyload"></p>
-<p>看了大佬的提示：是模板注入，靠，这怎么想得到啊。菜鸡我是真的涨姿势了。</p>
-<p>如果输入NaN如果  <code>输出7777777 则是jinja2模板</code>                                <code>如果是 49 则是 twig模板</code></p>
-<p>这里输出了49 则这是 <code>twig模板注入</code>了</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/clip_image002.jpg" alt="img" class="lazyload"></p>
-<p>大佬的在博客中指出了怎样构造pauload</p>
-<p><a target="_blank" rel="noopener" href="https://www.k0rz3n.com/2018/11/12/%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3%E6%BC%8F%E6%B4%9E%E4%B9%8BSSTI%E6%BC%8F%E6%B4%9E/#2-Twig">https://www.k0rz3n.com/2018/11/12/%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3%E6%BC%8F%E6%B4%9E%E4%B9%8BSSTI%E6%BC%8F%E6%B4%9E/#2-Twig</a></p>
-<p>我这里简单总结一下</p>
-<p>twig提供了一个_self，它可以调用env（env是指属性Twig_Environment对象，Twig_Environment对象有一个 setCache方法可用于更改Twig尝试加载和执行编译模板（PHP文件）的位置）</p>
-<p>不过call_user_function()函数一般被php禁用了，不过有一个getFile() 可以调用call_user_function()</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201013213830021.png" alt="image-20201013213830021" class="lazyload"></p>
-<p>然后利用registerUnderfinedFilterCallback()函数将exec作为回调函数传进去。</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/clip_image004.png" alt="img" class="lazyload"></p>
-<p>至此payload创建成功，只需要在后面加上自己想要执行的命令就行了</p>
-<p>payload：</p>
-<p><code>&#123;&#123;_self.env.registerUndefinedFilterCallback("exec")&#125;&#125;&#123;&#123;_self.env.getFilter("cat /flag")&#125;&#125;</code></p>
-<p> <img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/clip_image008.jpg" alt="img" class="lazyload"></p>
-<h2 id="success"><a href="#success" class="headerlink" title="success"></a>success</h2><p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/clip_image006.png" alt="img" class="lazyload"></p>
-<p>  <a target="_blank" rel="noopener" href="https://www.k0rz3n.com/2018/11/12/%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3%E6%BC%8F%E6%B4%9E%E4%B9%8BSSTI%E6%BC%8F%E6%B4%9E/#2-Twig">https://www.k0rz3n.com/2018/11/12/%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%B8%A6%E4%BD%A0%E7%90%86%E8%A7%A3%E6%BC%8F%E6%B4%9E%E4%B9%8BSSTI%E6%BC%8F%E6%B4%9E/#2-Twig</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Aidang/article/details/108182487">https://blog.csdn.net/Aidang/article/details/108182487</a> </p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/28823933">https://zhuanlan.zhihu.com/p/28823933</a></p>
-<p><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/7518">https://xz.aliyun.com/t/7518</a></p>
-<h1 id="Bugku-蹭网先解开密码-hashcat"><a href="#Bugku-蹭网先解开密码-hashcat" class="headerlink" title="Bugku 蹭网先解开密码(hashcat)"></a>Bugku 蹭网先解开密码(hashcat)</h1><p>无意中得知了hashcat这个神奇 ，但是第一次接触不会用啊，于是在网上找题目实战，刚好bugku就有一道用hashcat破解wifi密码的杂项题。</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012121753825.png" alt="image-20201012121753825" class="lazyload"></p>
-<p>下载wifi.cap文件，这个文件是wifi的握手包，即为采用的wpa加密方式的无线ap与无线客户端连接前的认证信息包，可以通过这个握手包暴力破解密码。</p>
-<p>因为是破解，所以得写一个电话号码的字典给它跑。电话号码一般都是11位的，而且这里还告诉了前8位，所以用脚本生成一个11位的电话号码字典。</p>
-<pre><code class="python">a = 1391040
-f = open(&#39;pass.txt&#39;, &#39;w&#39;)
-for i in range(0,1000):
-    psd = a + str(i).zfill(4)
-    f.write(psd+&#39;\n&#39;)</code></pre>
-<h2 id="hashcat"><a href="#hashcat" class="headerlink" title="hashcat"></a>hashcat</h2><p>然后到 <a target="_blank" rel="noopener" href="https://hashcat.net/hashcat/">https://hashcat.net/hashcat/</a> 下载 hashcat binaries 文件</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012122440823.png" alt="image-20201012122440823" class="lazyload"></p>
-<p>到 <a target="_blank" rel="noopener" href="https://hashcat.net/cap2hccapx/">https://hashcat.net/cap2hccapx/</a> 将 .cap文件转换成 .hccapx文件</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012122529106.png" alt="image-20201012122529106" class="lazyload"></p>
-<p>然后将hccapx文件与字典放入hashcat的文件夹</p>
-<p>输入命令 <code>vhashcat.exe -m 2500 1.hccapx pass.txt</code></p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012185323925.png" alt="image-20201012185323925" class="lazyload"></p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012185651596.png" alt="image-20201012185651596" class="lazyload"></p>
-<p>成功跑出手机号码</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012185354618.png" alt="image-20201012185354618" class="lazyload"></p>
-<h2 id="EWSA"><a href="#EWSA" class="headerlink" title="EWSA"></a>EWSA</h2><p>导入握手包</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012192803014.png" alt="image-20201012192803014" class="lazyload"></p>
-<p>点击ok</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012192924479.png" alt="image-20201012192924479" class="lazyload"></p>
-<p>导入字典</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012192956249.png" alt="image-20201012192956249" class="lazyload"></p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012193026204.png" alt="image-20201012193026204" class="lazyload"></p>
-<p>开始爆破</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012193201785.png" alt="image-20201012193201785" class="lazyload"></p>
-<h2 id="success-1"><a href="#success-1" class="headerlink" title="success"></a>success</h2><p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201012185459965.png" alt="image-20201012185459965" class="lazyload"></p>
-<h1 id="网鼎杯-2020-青龙组-AreUSerialz-序列化-protected"><a href="#网鼎杯-2020-青龙组-AreUSerialz-序列化-protected" class="headerlink" title="[网鼎杯 2020 青龙组]AreUSerialz(序列化,protected)"></a>[网鼎杯 2020 青龙组]AreUSerialz(序列化,protected)</h1><p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Cl0ud/p/12874458.html">https://www.cnblogs.com/Cl0ud/p/12874458.html</a></p>
-<p>打开就是源码，加上名字已经暗示的很清楚了，这是一道反序列化的代码审计题</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201013204701298.png" alt="image-20201013204701298" class="lazyload"></p>
-<p>注入点是在最后，要给str传参，传的值得经过<code>is_valid()</code>函数进行判断</p>
-<pre><code class="php">function is_valid($s) &#123;
-    for($i = 0; $i &lt; strlen($s); $i++)
-        if(!(ord($s[$i]) &gt;= 32 &amp;&amp; ord($s[$i]) &lt;= 125))
-            return false;
-    return true;
-&#125;
-
-
-if(isset($_GET&#123;&#39;str&#39;&#125;)) &#123;
-
-    $str = (string)$_GET[&#39;str&#39;];
-    if(is_valid($str)) &#123;
-        $obj = unserialize($str);
-    &#125;
-
-&#125;</code></pre>
-<p>ord()函数返回字符的ascll值，这里的判断条件是str字符串里的每个字符的都得ascll都得大于32，或小于125。</p>
-<p>具体可以去查表，大概也就是说以下和一些不可取。</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201013205945042.png" alt="image-20201013205945042" class="lazyload"></p>
-<p>不管怎样，先把源码放进本地环境跑跑</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201013211156123.png" alt="image-20201013211156123" class="lazyload"></p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201013211206892.png" alt="image-20201013211206892" class="lazyload"></p>
-<p>给str传参，回显bad hacker！这时就该去<code>FileHandler ()</code> 里面看看有没有可以利用的函数了。</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201013211235721.png" alt="image-20201013211235721" class="lazyload"><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201013211244198.png" alt="image-20201013211244198" class="lazyload"></p>
-<p>太菜了，都忘记会先调用构造函数destruct()了。它会先进行<code>强类型比较</code>通过的话把1赋给op，然后将content赋为空，转到process去</p>
-<pre><code class="php">function __destruct() &#123;
-    if($this-&gt;op === &quot;2&quot;)
-        $this-&gt;op = &quot;1&quot;;
-    $this-&gt;content = &quot;&quot;;
-    $this-&gt;process();
-&#125;</code></pre>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201014211510289.png" alt="image-20201014211510289" class="lazyload"></p>
-<p>如果op为1就执行write()，如果op为2就执行read()，read函数后面还有一个output函数输出。感觉这里应该可以利用来输出flag。</p>
-<pre><code class="php">public function process() &#123;
-    if($this-&gt;op == &quot;1&quot;) &#123;
-        $this-&gt;write();
-    &#125; else if($this-&gt;op == &quot;2&quot;) &#123;
-        $res = $this-&gt;read();
-        $this-&gt;output($res);
-    &#125; else &#123;
-        $this-&gt;output(&quot;Bad Hacker!&quot;);
-    &#125;
-&#125;</code></pre>
-<p>read 里面有file_get_contents() 应该可以用来读取文件</p>
-<pre><code class="php">private function read() &#123;
-    $res = &quot;&quot;;
-    if(isset($this-&gt;filename)) &#123;
-        $res = file_get_contents($this-&gt;filename);
-    &#125;
-    return $res;
-&#125;</code></pre>
-<p>毕竟是读文件感觉write应该没用。</p>
-<p>为了进行读flag，op必须为2，但这里可以用强类型绕过只要两边值的类型不同就直接false，所以给op赋值为整型的2，因为比较的时候op比较的是str类型的2，就直接false了。</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201014211510289.png" alt="image-20201014211510289" class="lazyload"><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201015165739104.png" alt="image-20201015165739104" class="lazyload"></p>
-<p>在构造函数里将op赋值整型2，filrname为flag.php</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201015171118170.png" alt="image-20201015171118170" class="lazyload"></p>
-<p>这时看到序列化后的字符串有方块，这事实上是ascll为0的空字符，用这个去当payload肯定是不行了。</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201015171300459.png" alt="image-20201015171300459" class="lazyload"></p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201015172331260.png" alt="image-20201015172331260" class="lazyload"></p>
-<p>上网查了下，因为前面设置变量的时候设置的私有变量，私有变量序列化后就会有空字符。为了去掉这个，大佬说可以将</p>
-<p>protected属性改为public</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201015172542221.png" alt="image-20201015172542221" class="lazyload"></p>
-<p>跑payload：</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201015172651092.png" alt="image-20201015172651092" class="lazyload"></p>
-<h2 id="success-2"><a href="#success-2" class="headerlink" title="success"></a>success</h2><p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201013213251591.png" alt="image-20201013213251591" class="lazyload"></p>
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-
-
-
-
-<h1 id="网鼎杯-2020-朱雀组-Nmap-RCE-nmap"><a href="#网鼎杯-2020-朱雀组-Nmap-RCE-nmap" class="headerlink" title="[网鼎杯 2020 朱雀组]Nmap(RCE,nmap)"></a>[网鼎杯 2020 朱雀组]Nmap(RCE,nmap)</h1><p>题目有提示：</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201015213841754.png" alt="image-20201015213841754" class="lazyload"></p>
-<p>之前好像做过类似的题，用的linux通道符远程命令执行。搞出来的。</p>
-<p>查看报告详情的时候这里的url栏里出现了一个变量f后面接的是前面报告的名称。</p>
-<p><img src="https://gitee.com/tothemoon_2020/picgo/raw/master/20201016112725.png"></p>
-<p>随便输了个flag后报错了。出现了个函数提醒，根据这个函数应该可以推测处和<code>xxe</code>漏洞有关。</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201016112914379.png" alt="image-20201016112914379" class="lazyload"></p>
-<p>抓包发现php的版本，再根据前面的提示 <code>flag is in / flag</code> 构造payload</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201016125301701.png" alt="image-20201016125301701" class="lazyload"></p>
-<p>xxe的payload试了半天都没用估计和这个关系不大了，又回到前面的远程命令执行。</p>
-<p>突然想起来之前在buu 做的一道 online tools 也是利用命令执行和nmap的一个参数，写一句话木马，连上得到flag的。</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201017124109923.png" alt="image-20201017124109923" class="lazyload"></p>
-<pre><code>&#39; &lt;php?= @eval($_POST[&quot;hack&quot;]);?&gt; -oG hack.php &#39;</code></pre>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201018202432573.png" alt="image-20201018202432573" class="lazyload"></p>
-<p>啊这有问题，经过多次测试后应该是有对php的过滤。然后重新构造payload才行。可以将前面的php删除掉。经过测试过以下后缀后将发现改为pht，phtml可以绕过。</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201018203344059.png" alt="image-20201018203344059" class="lazyload"></p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201018201700320.png" alt="image-20201018201700320" class="lazyload"></p>
-<p>然后访问下hack.phtml试一试上传成功没。</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201018201940936.png" alt="image-20201018201940936" class="lazyload"></p>
-<p>连上菜刀在根目录下找到flag</p>
-<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201018202047338.png" alt="image-20201018202047338" class="lazyload"></p>
-<h2 id="success-3"><a href="#success-3" class="headerlink" title="success"></a>success</h2><p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201013213251591.png" alt="image-20201013213251591" class="lazyload"></p>
-
+<h1 id="BJDCTF-2020-Web-Cookie-is-so-subtle-twig-ssti"><a href="#BJDCTF-2020-Web-Cookie-is-so-subtle-twig-ssti" class="headerlink" title="BJDCTF-2020-Web-Cookie is so subtle!(twig,ssti)"></a>BJDCTF-2020-Web-Cookie is so subtle!(twig,ssti)</h1>
             
         </article>
     </div>
@@ -420,7 +255,7 @@ if(isset($_GET&#123;&#39;str&#39;&#125;)) &#123;
   </div>
   <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<!--<script src="/js/app.js?v=1603025788938"></script>-->
+<!--<script src="/js/app.js?v=1603025834540"></script>-->
 
 
     <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
