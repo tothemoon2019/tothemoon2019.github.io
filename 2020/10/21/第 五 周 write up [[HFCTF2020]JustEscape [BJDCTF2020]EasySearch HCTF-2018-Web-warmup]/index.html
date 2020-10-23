@@ -4,7 +4,7 @@
 
 <head>
   
-  <title>第 五 周 write up [[HFCTF2020]JustEscape] - tothemoon &#39; s blog</title>
+  <title>第 五 周 write up [[HFCTF2020]JustEscape [BJDCTF2020]EasySearch HCTF-2018-Web-warmup] - tothemoon &#39; s blog</title>
   <meta charset="UTF-8">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
@@ -12,12 +12,12 @@
   
 
   <link rel="shortcut icon" href="https://gitee.com/tothemoon_2020/picgo/raw/master/img/20201005095528.jpeg" type="image/png" />
-  <meta name="description" content="[HFCTF2020]JustEscape(VM沙箱逃逸)页面打开后有一堆相当于提示的东西：目录下肯定有个run.php，注意编码，真的是php嘛">
+  <meta name="description" content="[HFCTF2020]JustEscape(VM沙箱逃逸)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第 五 周 write up [[HFCTF2020]JustEscape]">
-<meta property="og:url" content="http://tothemoon2019.github.io/2020/10/21/%E7%AC%AC%20%E4%BA%94%20%E5%91%A8%20write%20up%20[[HFCTF2020]JustEscape]/index.html">
+<meta property="og:title" content="第 五 周 write up [[HFCTF2020]JustEscape [BJDCTF2020]EasySearch HCTF-2018-Web-warmup]">
+<meta property="og:url" content="http://tothemoon2019.github.io/2020/10/21/%E7%AC%AC%20%E4%BA%94%20%E5%91%A8%20write%20up%20[[HFCTF2020]JustEscape%20[BJDCTF2020]EasySearch%20HCTF-2018-Web-warmup]/index.html">
 <meta property="og:site_name" content="tothemoon &#39; s blog">
-<meta property="og:description" content="[HFCTF2020]JustEscape(VM沙箱逃逸)页面打开后有一堆相当于提示的东西：目录下肯定有个run.php，注意编码，真的是php嘛">
+<meta property="og:description" content="[HFCTF2020]JustEscape(VM沙箱逃逸)">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021121242505.png">
 <meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021121455745.png">
@@ -40,14 +40,22 @@
 <meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201022213312814.png">
 <meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201022213445120.png">
 <meta property="og:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201022213908743.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201023085801340.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201023085910436.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDc4MDk2,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020102309173117.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201023104355103.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDc4MDk2,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020102310470939.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDc4MDk2,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201023104736955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDc4MDk2,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201023104942729.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDc4MDk2,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20201023105315106.png#pic_center">
 <meta property="article:published_time" content="2020-10-21T12:06:32.000Z">
-<meta property="article:modified_time" content="2020-10-22T13:50:23.887Z">
+<meta property="article:modified_time" content="2020-10-23T05:04:47.103Z">
 <meta property="article:author" content="tothemoon">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021121242505.png">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/gh/nexmoe/nexmoe.github.io@latest/css/style.css,npm/highlight.js@9.15.8/styles/atom-one-dark.css,gh/nexmoe/nexmoe.github.io@latest/lib/mdui_043tiny/css/mdui.css,gh/nexmoe/nexmoe.github.io@latest/lib/iconfont/iconfont.css" crossorigin>
   
-  <!--<link rel="stylesheet" href="/css/style.css?v=1603374630919">-->
+  <!--<link rel="stylesheet" href="/css/style.css?v=1603429494787">-->
 
   
 <meta name="generator" content="Hexo 5.2.0"></head>
@@ -180,15 +188,15 @@
         <div class="nexmoe-post">
   
       <div class="nexmoe-post-cover" style="padding-bottom: 20%;"> 
-          <img data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/20201021201210.png" data-sizes="auto" alt="第 五 周 write up [[HFCTF2020]JustEscape]" class="lazyload">
-          <h1>第 五 周 write up [[HFCTF2020]JustEscape]</h1>
+          <img data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/20201021201210.png" data-sizes="auto" alt="第 五 周 write up [[HFCTF2020]JustEscape [BJDCTF2020]EasySearch HCTF-2018-Web-warmup]" class="lazyload">
+          <h1>第 五 周 write up [[HFCTF2020]JustEscape [BJDCTF2020]EasySearch HCTF-2018-Web-warmup]</h1>
       </div>
   
   
   <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
     <a><i class="nexmoefont icon-calendar-fill"></i>2020年10月21日</a>
-    <a><i class="nexmoefont icon-areachart"></i>1.1k 字</a>
-    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 5 分钟</a>
+    <a><i class="nexmoefont icon-areachart"></i>1.8k 字</a>
+    <a><i class="nexmoefont icon-time-circle-fill"></i>大概 8 分钟</a>
 </div>
 
   <div class="nexmoe-post-right">
@@ -196,7 +204,7 @@
       <div class="nexmoe-fixed">
         <div class="nexmoe-valign">
             <div class="nexmoe-toc">
-                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HFCTF2020-JustEscape-VM%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8"><span class="toc-number">1.</span> <span class="toc-text">[HFCTF2020]JustEscape(VM沙箱逃逸)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00"><span class="toc-number">1.1.</span> <span class="toc-text">0x00</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01"><span class="toc-number">1.2.</span> <span class="toc-text">0x01</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1"><span class="toc-number">1.2.1.</span> <span class="toc-text">1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2"><span class="toc-number">1.2.2.</span> <span class="toc-text">2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#success"><span class="toc-number">1.3.</span> <span class="toc-text">success</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BJDCTF2020-EasySearch-shtml-ssi%E6%B3%A8%E5%85%A5"><span class="toc-number">2.</span> <span class="toc-text">[BJDCTF2020]EasySearch(shtml,ssi注入)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ssi%E6%B3%A8%E5%85%A5"><span class="toc-number">2.1.</span> <span class="toc-text">ssi注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#success-1"><span class="toc-number">2.2.</span> <span class="toc-text">success</span></a></li></ol></li></ol>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HFCTF2020-JustEscape-VM%E6%B2%99%E7%AE%B1%E9%80%83%E9%80%B8"><span class="toc-number">1.</span> <span class="toc-text">[HFCTF2020]JustEscape(VM沙箱逃逸)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x00"><span class="toc-number">1.1.</span> <span class="toc-text">0x00</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01"><span class="toc-number">1.2.</span> <span class="toc-text">0x01</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1"><span class="toc-number">1.2.1.</span> <span class="toc-text">1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2"><span class="toc-number">1.2.2.</span> <span class="toc-text">2</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#success"><span class="toc-number">1.3.</span> <span class="toc-text">success</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#BJDCTF2020-EasySearch-shtml-ssi%E6%B3%A8%E5%85%A5"><span class="toc-number">2.</span> <span class="toc-text">[BJDCTF2020]EasySearch(shtml,ssi注入)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ssi%E6%B3%A8%E5%85%A5"><span class="toc-number">2.1.</span> <span class="toc-text">ssi注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#success-1"><span class="toc-number">2.2.</span> <span class="toc-text">success</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#HCTF-2018-Web-warmup-%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="toc-number">3.</span> <span class="toc-text">HCTF-2018-Web-warmup(代码审计)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#success-2"><span class="toc-number">3.1.</span> <span class="toc-text">success</span></a></li></ol></li></ol>
             </div>
         </div>
       </div>
@@ -204,7 +212,9 @@
   </div>
 
   <article>
-    <h1 id="HFCTF2020-JustEscape-VM沙箱逃逸"><a href="#HFCTF2020-JustEscape-VM沙箱逃逸" class="headerlink" title="[HFCTF2020]JustEscape(VM沙箱逃逸)"></a>[HFCTF2020]JustEscape(VM沙箱逃逸)</h1><p>页面打开后有一堆相当于提示的东西：<code>目录下肯定有个run.php</code>，<code>注意编码</code>，<code>真的是php嘛</code><a id="more"></a></p>
+    <h1 id="HFCTF2020-JustEscape-VM沙箱逃逸"><a href="#HFCTF2020-JustEscape-VM沙箱逃逸" class="headerlink" title="[HFCTF2020]JustEscape(VM沙箱逃逸)"></a>[HFCTF2020]JustEscape(VM沙箱逃逸)</h1><a id="more"></a>
+
+<p>页面打开后有一堆相当于提示的东西：<code>目录下肯定有个run.php</code>，<code>注意编码</code>，<code>真的是php嘛</code></p>
 <p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021121242505.png" alt="image-20201021121242505" class="lazyload"></p>
 <p>打开run.php发现一段代码</p>
 <pre><code class="php">&lt;?php
@@ -243,7 +253,7 @@ if( array_key_exists( &quot;code&quot;, $_GET ) &amp;&amp; $_GET[ &#39;code&#39;
 &#125;)()</code></pre>
 <p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021194805828.png" alt="image-20201021194805763" class="lazyload"></p>
 <h2 id="success"><a href="#success" class="headerlink" title="success"></a>success</h2><p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201021195736157.png" alt="image-20201021195736157" class="lazyload"></p>
-<p><br><br><br><br><br><br><br></p>
+<p><br><br><br><br><br><br></p>
 <h1 id="BJDCTF2020-EasySearch-shtml-ssi注入"><a href="#BJDCTF2020-EasySearch-shtml-ssi注入" class="headerlink" title="[BJDCTF2020]EasySearch(shtml,ssi注入)"></a>[BJDCTF2020]EasySearch(shtml,ssi注入)</h1><p>测试了一下常见的sql注入，没有回显。</p>
 <p>于是用御剑扫了一下后台</p>
 <p>扫描出了一个index的备份文件：<code>index.php.swp</code></p>
@@ -318,6 +328,88 @@ if __name__ == &#39;__main__&#39;:
 <p>payload：<code>&lt;!--#exec cmd=&quot;cat ../flag_990c66bf85a09c664f0b6741840499b2&quot;</code></p>
 <p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201022213445120.png" alt="image-20201022213445120" class="lazyload"></p>
 <h2 id="success-1"><a href="#success-1" class="headerlink" title="success"></a>success</h2><p><img data-sizes="auto" data-src="https://gitee.com/tothemoon_2020/picgo/raw/master/image-20201022213908743.png" alt="image-20201022213908743" class="lazyload"></p>
+<p><br><br><br><br><br><br><br></p>
+<h1 id="HCTF-2018-Web-warmup-代码审计"><a href="#HCTF-2018-Web-warmup-代码审计" class="headerlink" title="HCTF-2018-Web-warmup(代码审计)"></a>HCTF-2018-Web-warmup(代码审计)</h1><p>查看源码，访问source.php<br><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/20201023085801340.png#pic_center" alt="在这里插入图片描述" class="lazyload"><br>发现有源码<br><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/20201023085910436.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDc4MDk2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" class="lazyload"></p>
+<pre><code class="php">&lt;?php
+    highlight_file(__FILE__);
+    class emmm
+    &#123;
+        public static function checkFile(&amp;$page)
+        &#123;
+            $whitelist = [&quot;source&quot;=&gt;&quot;source.php&quot;,&quot;hint&quot;=&gt;&quot;hint.php&quot;];
+            if (! isset($page) || !is_string($page)) &#123; // 判断变量是否存在且为字符串类型
+                echo &quot;you can&#39;t see it&quot;;
+                return false;
+            &#125;
+
+            if (in_array($page, $whitelist)) &#123; // 检测变量里是否有白名单里的元素
+                return true;
+            &#125;
+
+            $_page = mb_substr(
+                $page,
+                0,
+                mb_strpos($page . &#39;?&#39;, &#39;?&#39;) // 查找？在字符串里出现的首个位置返回id
+            );
+            if (in_array($_page, $whitelist)) &#123;
+                return true;
+            &#125;
+
+            $_page = urldecode($page);
+            $_page = mb_substr(
+                $_page,
+                0,
+                mb_strpos($_page . &#39;?&#39;, &#39;?&#39;)
+            );
+            if (in_array($_page, $whitelist)) &#123;
+                return true;
+            &#125;
+            echo &quot;you can&#39;t see it&quot;;
+            return false;
+        &#125;
+    &#125;
+
+    if (! empty($_REQUEST[&#39;file&#39;]) // $_REQUEST[&#39;file&#39;]值非空
+        &amp;&amp; is_string($_REQUEST[&#39;file&#39;]) // $_REQUEST[&#39;file&#39;]值为字符串
+        &amp;&amp; emmm::checkFile($_REQUEST[&#39;file&#39;]) //不为空，字符串，函数返回1
+    ) &#123;
+        include $_REQUEST[&#39;file&#39;];
+        exit;
+    &#125; else &#123;
+        echo &quot;&lt;br&gt;&lt;img src=\&quot;https://i.loli.net/2018/11/01/5bdb0d93dc794.jpg\&quot; /&gt;&quot;;
+    &#125;  
+?&gt;
+</code></pre>
+<p>源码里发现有一个hint.php访问之，有一个提示，flag in ffffllllaaaagggg<br><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/2020102309173117.png#pic_center" alt="在这里插入图片描述" class="lazyload"><br>知道flag的名称后就可以开始构造payload读取了，<br>经过代码审计后最重要的是要通过checkFile里的判断返回<code>true</code>；checkfile里面一共有三个判断可以返回true，进而读取flag。不过呢，并不是每一个都是有用的。<br>first：</p>
+<pre><code>if (in_array($page, $whitelist)) &#123; // 检测变量里是否有白名单里的元素
+                return true;
+            &#125;
+</code></pre>
+<p>second：</p>
+<pre><code>            $_page = mb_substr(
+                $page,
+                0,
+                mb_strpos($page . &#39;?&#39;, &#39;?&#39;) // 查找？在字符串里出现的首个位置返回id
+            );
+            if (in_array($_page, $whitelist)) &#123;
+                return true;
+            &#125;</code></pre>
+<p>last：</p>
+<pre><code>            $_page = urldecode($page);
+            $_page = mb_substr(
+                $_page,
+                0,
+                mb_strpos($_page . &#39;?&#39;, &#39;?&#39;)
+            );
+            if (in_array($_page, $whitelist)) &#123;
+                return true;
+            &#125;</code></pre>
+<p>其中第一个没啥用，因为它直接就对<code>$page</code>与whitelist比较，这样的话能通过的情况就只有当<code>$page</code>为source.php或hint.php。<br>第二种和第三种区别在于第三种对<code>page</code>进行了一次url解码。<br>所以第二种和第三种都能构造出payload读取flag。<br>payload1：<br>为了让运实现函数in_array()时，能比较成功，就得让mb_substr()函数截断的时候只留下hint.php或source.php，所以可以在他们后面加上?再接上flag比如：file=hint.php?ffffllllaaaagggg。<br>可是却会出现滑稽<br>    <img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/20201023104355103.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDc4MDk2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" class="lazyload"></p>
+<pre><code>为什么呢？因为浏览器在进行解析的时候会自动url解码一次，所以我们得先url编码一次
+payload：file=hint.php%3fffffllllaaaagggg</code></pre>
+<p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/2020102310470939.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDc4MDk2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" class="lazyload"></p>
+<p>为什么还是出不了flag？可能是路径不正确，所以我们一级一级查看，最后：payload：file=hint.php%3f../../../../../ffffllllaaaagggg<br><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/20201023104736955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDc4MDk2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" class="lazyload"><br>payload2：<br>第三个判断前面又解码了一次，所以我们编码两次：payload：file=hint.php%253f../../../../../ffffllllaaaagggg；不用编码直接用？也是可行的。<br><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/20201023104942729.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNDc4MDk2,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述" class="lazyload"></p>
+<h2 id="success-2"><a href="#success-2" class="headerlink" title="success"></a>success</h2><p><img data-sizes="auto" data-src="https://img-blog.csdnimg.cn/20201023105315106.png#pic_center" alt="在这里插入图片描述" class="lazyload"></p>
 
   </article>
 
@@ -333,7 +425,7 @@ if __name__ == &#39;__main__&#39;:
       
   <div class="nexmoe-post-copyright">
     <strong>本文作者：</strong>tothemoon<br>
-    <strong>本文链接：</strong><a href="http://tothemoon2019.github.io/2020/10/21/%E7%AC%AC%20%E4%BA%94%20%E5%91%A8%20write%20up%20[[HFCTF2020]JustEscape]/" title="http:&#x2F;&#x2F;tothemoon2019.github.io&#x2F;2020&#x2F;10&#x2F;21&#x2F;%E7%AC%AC%20%E4%BA%94%20%E5%91%A8%20write%20up%20[[HFCTF2020]JustEscape]&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;tothemoon2019.github.io&#x2F;2020&#x2F;10&#x2F;21&#x2F;%E7%AC%AC%20%E4%BA%94%20%E5%91%A8%20write%20up%20[[HFCTF2020]JustEscape]&#x2F;</a><br>
+    <strong>本文链接：</strong><a href="http://tothemoon2019.github.io/2020/10/21/%E7%AC%AC%20%E4%BA%94%20%E5%91%A8%20write%20up%20[[HFCTF2020]JustEscape%20[BJDCTF2020]EasySearch%20HCTF-2018-Web-warmup]/" title="http:&#x2F;&#x2F;tothemoon2019.github.io&#x2F;2020&#x2F;10&#x2F;21&#x2F;%E7%AC%AC%20%E4%BA%94%20%E5%91%A8%20write%20up%20[[HFCTF2020]JustEscape%20[BJDCTF2020]EasySearch%20HCTF-2018-Web-warmup]&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;tothemoon2019.github.io&#x2F;2020&#x2F;10&#x2F;21&#x2F;%E7%AC%AC%20%E4%BA%94%20%E5%91%A8%20write%20up%20[[HFCTF2020]JustEscape%20[BJDCTF2020]EasySearch%20HCTF-2018-Web-warmup]&#x2F;</a><br>
     
       <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
     
@@ -363,7 +455,7 @@ if __name__ == &#39;__main__&#39;:
   </div>
   <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,gh/highlightjs/cdn-release@9.15.8/build/highlight.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js,gh/nexmoe/nexmoe.github.io@latest/js/app.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-<!--<script src="/js/app.js?v=1603374630924"></script>-->
+<!--<script src="/js/app.js?v=1603429494792"></script>-->
 
 
     <script src="https://cdn.jsdelivr.net/gh/xtaodada/xtaodada.github.io@0.0.2/copy.js"></script>
